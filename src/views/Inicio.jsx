@@ -1,7 +1,16 @@
+import contador from "../components/contador";
+import React, { useState } from 'react';
+
 const Inicio = () => {
+    const incrementar = () =>{
+
+    }
+
     return (
  <>
-<h2>Página de Inicio</h2>
+
+   <contador contador={contador} />
+
 </>
     );
 }
