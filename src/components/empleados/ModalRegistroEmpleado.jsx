@@ -15,7 +15,7 @@ const ModalRegistroEmpleado = ({
       <Modal.Body>
         <Form>
 
-          <Form.Group className="mb-3" controlId="Primernombre">
+          <Form.Group className="mb-3" controlId="primer_nombre">
             <Form.Label>Primer nombre</Form.Label>
             <Form.Control
               type="text"
@@ -28,7 +28,7 @@ const ModalRegistroEmpleado = ({
             />
           </Form.Group>
 
-          <Form.Group className="mb-3" controlId="SegundoNombre">
+          <Form.Group className="mb-3" controlId="segundo_nombre">
             <Form.Label>Segundo Nombre</Form.Label>
             <Form.Control
               type="text"
@@ -40,7 +40,7 @@ const ModalRegistroEmpleado = ({
             />
           </Form.Group>
 
-<Form.Group className="mb-3" controlId="Primerapellido">
+<Form.Group className="mb-3" controlId="primer_apellido">
             <Form.Label>Primer apellidp</Form.Label>
             <Form.Control
               type="text"
@@ -52,7 +52,7 @@ const ModalRegistroEmpleado = ({
             />
           </Form.Group>
 
-          <Form.Group className="mb-3" controlId="Segundoapellido">
+          <Form.Group className="mb-3" controlId="segundo_apellido">
             <Form.Label>Segundo apellido</Form.Label>
             <Form.Control
               type="text"
@@ -110,7 +110,7 @@ const ModalRegistroEmpleado = ({
         <Button
           variant="primary"
           onClick={agregarEmpleado}
-          disabled={!nuevoEmpleado.empleado.trim()}
+          disabled={!nuevoEmpleado.primer_nombre.trim()}
         >
           Guardar Empleado
         </Button>

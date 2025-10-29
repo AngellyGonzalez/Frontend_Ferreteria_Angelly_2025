@@ -32,7 +32,7 @@ const Empleados = () => {
     if (!nuevoEmpleado.primer_nombre || !nuevoEmpleado.primer_nombre.trim()) return;
     try {
       const respuesta = await fetch(
-        "http://localhost:3000/api/registrarempleado",
+        "http://localhost:3000/api/registrarempleados",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -58,7 +58,7 @@ const Empleados = () => {
 
   const obtenerEmpleados = async () => {
     try {
-      const respuesta = await fetch("http://localhost:3000/api/empleados");
+      const respuesta = await fetch("http://localhost:3000/api/empleado");
       if (!respuesta.ok) {
         throw new Error("Error al obtener los empleados");
       }
@@ -72,28 +72,22 @@ const Empleados = () => {
     }
   };
   const manejarCambioBusqueda = (e) => {
-    const texto = (e.target.value || '').toLowerCase();
+    const texto = e.target.value.toLowerCase();
     setTextoBusqueda(texto);
-    const filtrados = empleados.filter((empleado) => {
-      const primer = (empleado.primer_nombre || '').toLowerCase();
-      const segundo = (empleado.segundo_nombre || '').toLowerCase();
-      const pa = (empleado.primer_apellido || '').toLowerCase();
-      const sa = (empleado.segundo_apellido || '').toLowerCase();
-      const celular = (empleado.celular || '').toLowerCase();
-      const cargo = (empleado.cargo || '').toLowerCase();
-      const fecha = (empleado.fecha_contratacion || '').toLowerCase();
-      return (
-        primer.includes(texto) ||
-        segundo.includes(texto) ||
-        pa.includes(texto) ||
-        sa.includes(texto) ||
-        celular.includes(texto) ||
-        cargo.includes(texto) ||
-        fecha.includes(texto)
-      );
-    });
+
+    const filtrados = empleados.filter(
+      (empleado) =>
+        empleado.primer_nombre.toLowerCase().includes(texto) ||
+        empleado.segundo_nombre.toLowerCase().includes(texto) ||
+        empleado.primer_apellido.toLowerCase().includes(texto) ||
+        empleado.segundo_apellido.toLowerCase().includes(texto) ||
+        empleado.celular.toLowerCase().includes(texto) ||
+        empleado.cargo.toLowerCase().includes(texto) ||
+        empleado.fecha_contratacion.toLowerCase().includes(texto)
+    );
     setEmpleadosFiltrados(filtrados);
   };
+
   useEffect(() => {
     obtenerEmpleados();
   }, []);
