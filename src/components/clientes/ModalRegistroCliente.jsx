@@ -104,11 +104,11 @@ const ModalRegistroCliente = ({
           </Form.Group>
 
           
-            <Form.Group className="mb-3" controlId="Cedula">
+            <Form.Group className="mb-3" controlId="cedula">
             <Form.Label>Cedula</Form.Label>
             <Form.Control
               type="text"
-              name= "Cedula"
+              name= "cedula"
               value={ nuevoCliente.cedula}
               onChange={manejarCambioInput}
               placeholder="Ej: Herramientas"
