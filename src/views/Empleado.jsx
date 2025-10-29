@@ -1,41 +1,79 @@
-import { useState, useEffect } from 'react';
-import { Container } from 'react-bootstrap';
-import TablaEmpleados from '../components/empleados/TablaEmpleados';
-import CuadroBusquedas from '../components/busquedas/CuadroBusquedas';
+import { useState, useEffect } from "react";
+import { Container, Col, Row, Button } from "react-bootstrap";
+import TablaEmpleados from "../components/empleados/TablaEmpleados";
+import CuadroBusquedas from "../components/busquedas/CuadroBusquedas";
+import ModalRegistroEmpleado from "../components/empleados/ModalRegistroEmpleado";
 
-
-
-const Empleado = () => {
-
-  const [empleados, setEmpleados] = useState([]);
+const Empleados = () => {
+  const [empleados, setempleados] = useState([]);
   const [cargando, setCargando] = useState(true);
 
-  const [empleadosFiltradas, setEmpleadosFiltradas] = useState([]);
+  const [empleadosFiltrados, setEmpleadosFiltrados] = useState([]);
   const [textoBusqueda, setTextoBusqueda] = useState("");
 
-  const obtenerEmpleados = async () => {
-    try {
-      const respuesta = await fetch('http://localhost:3000/api/empleado') // Devuelve todas las empleados
-      if (!respuesta.ok) {
-        throw new Error('Error al obtener las empleados');
-      }
+  const [mostrarModal, setMostrarModal] = useState(false);
+  const [nuevoEmpleado, setNuevoEmpleado] = useState({
+    primer_nombre: "",
+    segundo_nombre: "",
+    primer_apellido: "",
+    segundo_apellido: "",
+    celular: "",
+    cargo: "",
+    fecha_contratacion: ""
+  });
 
+  const manejarCambioInput = (e) => {
+    const { name, value } = e.target;
+    setNuevoEmpleado((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const agregarEmpleado = async () => {
+    if (!nuevoEmpleado.empleado.trim()) return;
+    try {
+      const respuesta = await fetch(
+        "http://localhost:3000/api/registrarempleado",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(nuevoEmpleado),
+        }
+      );
+      if (!respuesta.ok) throw new Error("Error al guardar");
+      // Limpiar y cerrar
+      setNuevoEmpleado({
+        primer_nombre: "", segundo_nombre: "", primer_apellido: "",
+        segundo_apellido: "",
+        celular: "",
+        cargo: "",
+        fecha_contratacion: "",
+      });
+      setMostrarModal(false);
+      await obtenerEmpleado(); // Refresca la lista
+    } catch (error) {
+      console.error("Error al agregar empleado:", error);
+      alert("No se pudo guardar el empleado. Revisa la consola.");
+    }
+  };
+
+  const obtenerEmpleado = async () => {
+    try {
+      const respuesta = await fetch("http://localhost:3000/api/empleados");
+      if (!respuesta.ok) {
+        throw new Error("Error al obtener los empleados");
+      }
       const datos = await respuesta.json();
-      setEmpleados(datos);
-      setEmpleadosFiltradas(datos);
+      setempleados(datos);
+      setEmpleadosFiltrados(datos);
       setCargando(false);
     } catch (error) {
       console.log(error.message);
       setCargando(false);
     }
   };
-
-
   const manejarCambioBusqueda = (e) => {
     const texto = e.target.value.toLowerCase();
     setTextoBusqueda(texto);
-
-    const filtradas = empleados.filter(
+    const filtrados = empleados.filter(
       (empleado) =>
         empleado.primer_nombre.toLowerCase().includes(texto) ||
         empleado.segundo_nombre.toLowerCase().includes(texto) ||
@@ -45,14 +83,11 @@ const Empleado = () => {
         empleado.cargo.toLowerCase().includes(texto) ||
         empleado.fecha_contratacion.toLowerCase().includes(texto)
     );
-    setEmpleadosFiltradas(filtradas);
+    setEmpleadosFiltrados(filtrados);
   };
-
   useEffect(() => {
     obtenerEmpleados();
   }, []);
-
-
   return (
     <>
       <Container className="mt-4">
@@ -65,14 +100,26 @@ const Empleado = () => {
               manejarCambioBusqueda={manejarCambioBusqueda}
             />
           </Col>
+          <Col className="text-end">
+            <Button
+              className="color-boton-registro"
+              onClick={() => setMostrarModal(true)}
+            >
+              + Nuevo Empleado
+            </Button>
+          </Col>
         </Row>
 
-        <TablaEmpleados
-          empleados={empleadosFiltradas}
-          cargando={cargando}
+        <TablaEmpleados empleados={empleadosFiltrados} cargando={cargando} />
+        <ModalRegistroEmpleado
+          mostrarModal={mostrarModal}
+          setMostrarModal={setMostrarModal}
+          nuevoEmpleado={nuevoEmpleado}
+          manejarCambioInput={manejarCambioInput}
+          agregarEmpleado={agregarEmpleado}
         />
       </Container>
     </>
   );
-}
-export default Empleado;
+};
+export default Empleados;
