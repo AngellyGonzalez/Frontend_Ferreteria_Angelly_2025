@@ -40,6 +40,7 @@ const TablaEmpleados = ({empleados, cargando}) => {
              <td>{empleado.segundo_apellido}</td>
              <td>{empleado.celular}</td>
              <td>{empleado.cargo}</td>
+             <td>{empleado.cedula}</td>
              <td>{empleado.fecha_contratacion}</td>
             <td>Acción</td>
           </tr>

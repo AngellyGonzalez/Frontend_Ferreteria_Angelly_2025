@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Container } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
 import TablaCompras from '../components/compra/TablaCompras';
 import CuadroBusquedas from '../components/busquedas/CuadroBusquedas';
 
@@ -31,15 +31,15 @@ const Compra = () => {
   };
 
   const manejarCambioBusqueda = (e) => {
-    const texto = e.target.value.toLowerCase();
+    const texto = (e.target.value || '').toLowerCase();
     setTextoBusqueda(texto);
 
-    const filtradas = compras.filter(
-      (compra) =>
-        compra.id_empleado == texto ||
-        compra.fecha_compra.toLowerCase().includes(texto) ||
-        compra.total_compra.toLowerCase().includes(texto)
-    );
+    const filtradas = compras.filter((compra) => {
+      const idEmp = String(compra.id_empleado || '').toLowerCase();
+      const fecha = (compra.fecha_compra || '').toLowerCase();
+      const total = String(compra.total_compra || '').toLowerCase();
+      return idEmp.includes(texto) || fecha.includes(texto) || total.includes(texto);
+    });
     setComprasFiltradas(filtradas);
   };
 

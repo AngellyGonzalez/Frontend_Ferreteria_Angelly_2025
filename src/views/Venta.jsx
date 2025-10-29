@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Container } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
 import TablaVentas from '../components/ventas/TablaVentas';
 import CuadroBusquedas from '../components/busquedas/CuadroBusquedas';
 
@@ -33,16 +33,21 @@ const Venta = () => {
   };
 
   const manejarCambioBusqueda = (e) => {
-    const texto = e.target.value.toLowerCase();
+    const texto = (e.target.value || '').toLowerCase();
     setTextoBusqueda(texto);
 
-    const filtradas = ventas.filter(
-      (venta) =>
-        venta.id_cliente == texto ||
-        venta.id_empleado.toLowerCase().includes(texto) ||
-        venta.fecha_venta.toLowerCase().includes(texto) ||
-        venta.total_venta == texto
-    );
+    const filtradas = ventas.filter((venta) => {
+      const idCliente = String(venta.id_cliente || '').toLowerCase();
+      const idEmpleado = String(venta.id_empleado || '').toLowerCase();
+      const fecha = (venta.fecha_venta || '').toLowerCase();
+      const total = String(venta.total_venta || '').toLowerCase();
+      return (
+        idCliente.includes(texto) ||
+        idEmpleado.includes(texto) ||
+        fecha.includes(texto) ||
+        total.includes(texto)
+      );
+    });
     setVentasFiltradas(filtradas);
   };
 

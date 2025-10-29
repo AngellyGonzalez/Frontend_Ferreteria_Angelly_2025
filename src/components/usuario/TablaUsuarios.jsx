@@ -47,11 +47,11 @@ const TablaUsuarios = ({usuarios, cargando}) => {
 </BotonOrden>
 
 <BotonOrden campo="usuario" orden={orden} manejarOrden={manejarOrden}>
-  Nombre Categoría
+  Usuario
 </BotonOrden>
 
 <BotonOrden campo="contraseña" orden={orden} manejarOrden={manejarOrden}>
-  Descripción Categoría
+  Contraseña
 </BotonOrden>
           <th>Acciones</th>
         </tr>
