@@ -27,10 +27,21 @@ const Categorias = () => {
   const [categoriaEditada, setCategoriaEditada] = useState(null);
   const [categoriaAEliminar, setCategoriaAEliminar] = useState(null);
 
+
+  const [paginaActual, establecerPaginaActual] = useState(1);
+  const elementosPorPagina = 5; // Número de productos por página
+
   const abrirModalEdicion = (categoria) => {
     setCategoriaEditada({ ...categoria });
     setMostrarModalEdicion(true);
   };
+
+  
+// Calcular productos paginados
+const categoriasPaginadas = categoriasFiltradas.slice(
+  (paginaActual - 1) * elementosPorPagina,
+  paginaActual * elementosPorPagina
+);
 
   const guardarEdicion = async () => {
     if (!categoriaEditada.nombre_categoria.trim()) return;
@@ -167,10 +178,15 @@ const Categorias = () => {
         </Col>
 
         <TablaCategorias
-          categorias={categoriasFiltradas}
+          categorias={categoriasPaginadas}
           cargando={cargando}
           abrirModalEdicion={abrirModalEdicion}
           abrirModalEliminacion={abrirModalEliminacion}
+          totalElementos={categorias.length} // Total de categorias
+          elementosPorPagina={elementosPorPagina} // Elementos por página
+          paginaActual={paginaActual} // Página actual
+          establecerPaginaActual={establecerPaginaActual} // Método para cambiar página
+
         />
 
         <ModalRegistroCategoria
