@@ -6,7 +6,6 @@ import ModalRegistroCategoria from '../components/categorias/ModalRegistroCatego
 import ModalEdicionCategoria from '../components/categorias/ModalEdicionCategoria';
 import ModalEliminacionCategoria from '../components/categorias/ModalEliminacionCategoria';
 
-
 const Categorias = () => {
 
   const [categorias, setCategorias] = useState([]);
