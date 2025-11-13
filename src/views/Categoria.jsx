@@ -5,6 +5,7 @@ import CuadroBusquedas from '../components/busquedas/CuadroBusquedas';
 import ModalRegistroCategoria from '../components/categorias/ModalRegistroCategoria';
 import ModalEdicionCategoria from '../components/categorias/ModalEdicionCategoria';
 import ModalEliminacionCategoria from '../components/categorias/ModalEliminacionCategoria';
+import { Zoom, Fade } from "react-awesome-reveal";
 
 const Categorias = () => {
 
@@ -176,6 +177,7 @@ const categoriasPaginadas = categoriasFiltradas.slice(
           </Button>
         </Col>
 
+
         <TablaCategorias
           categorias={categoriasPaginadas}
           cargando={cargando}
@@ -185,8 +187,8 @@ const categoriasPaginadas = categoriasFiltradas.slice(
           elementosPorPagina={elementosPorPagina} // Elementos por página
           paginaActual={paginaActual} // Página actual
           establecerPaginaActual={establecerPaginaActual} // Método para cambiar página
+> </TablaCategorias>
 
-        />
 
         <ModalRegistroCategoria
           mostrarModal={mostrarModal}
