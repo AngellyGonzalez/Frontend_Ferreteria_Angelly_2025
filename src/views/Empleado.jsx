@@ -7,10 +7,12 @@ import ModalEdicionEmpleado from '../components/empleados/ModalEdicionEmpleado';
 import ModalEliminacionEmpleado from '../components/empleados/ModalEliminacionEmpleado';
 
 const Empleados = () => {
+
   const [empleados, setEmpleados] = useState([]);
   const [cargando, setCargando] = useState(true);
   const [empleadosFiltrados, setEmpleadosFiltrados] = useState([]);
   const [textoBusqueda, setTextoBusqueda] = useState("");
+
   const [mostrarModal, setMostrarModal] = useState(false);
   const [mostrarModalEdicion, setMostrarModalEdicion] = useState(false);
   const [mostrarModalEliminar, setMostrarModalEliminar] = useState(false);
@@ -27,6 +29,7 @@ const Empleados = () => {
     segundo_nombre: '',
     primer_apellido: '',
     segundo_apellido: '',
+
     celular: '',
     cargo: '',
     fecha_contratacion: hoy
@@ -45,7 +48,7 @@ const Empleados = () => {
   const agregarEmpleado = async () => {
     if (!nuevoEmpleado.primer_nombre.trim() || !nuevoEmpleado.primer_apellido.trim()) return;
     try {
-      const respuesta = await fetch('http://localhost:3000/api/registrarempleado', {
+      const respuesta = await fetch('http://localhost:3000/api/registrarempleados', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(nuevoEmpleado)
@@ -86,10 +89,11 @@ const Empleados = () => {
     const texto = e.target.value.toLowerCase();
     setTextoBusqueda(texto);
     const filtrados = empleados.filter(emp =>
-      `${emp.primer_nombre} ${emp.segundo_nombre} ${emp.primer_apellido} ${emp.segundo_apellido}`.toLowerCase().includes(texto) ||
+    `${emp.primer_nombre} ${emp.segundo_nombre} ${emp.primer_apellido} ${emp.segundo_apellido}`.toLowerCase().includes(texto) ||
       emp.cargo.toLowerCase().includes(texto) ||
       emp.celular.includes(texto)
     );
+
     setEmpleadosFiltrados(filtrados);
   };
 
